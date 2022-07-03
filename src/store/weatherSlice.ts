@@ -89,7 +89,7 @@ const weatherSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchHoursWeather.fulfilled, (state, action) => {
-                state.hourList.push(action.payload)
+                // state.hourList.push(action.payload)
 
             })
     }
