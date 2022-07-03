@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -38,16 +38,23 @@ const Cart: FC<CartProps> = ({ weather }) => {
 
   }
 
+  useEffect(() => {
+
+
+
+  }, [])
+
+
   return (
     <div className={cl.card} onClick={() => route(`/detaile/${weather.id}`)}>
-      <Button onClick={removeWeather} className={cl.closeBtn} sx={{ color: 'white', marginLeft: '250px'}} startIcon={<CloseIcon sx={{ width: '60px', height: '60px' }} />}></Button>
+      <Button onClick={removeWeather} className={cl.closeBtn} sx={{ color: 'white', marginLeft: '250px' }} startIcon={<CloseIcon sx={{ width: '60px', height: '60px' }} />}></Button>
       <div className={cl.cardInfo}>
         <h2>{weather.name}</h2>
         <p>{`${day}/${month}/${year}`}</p>
         <div className={cl.temp}>{Math.round(weather.main?.temp || 0)}<span>°C</span> </div>
         <Button onClick={updateData} sx={{ color: 'white' }} startIcon={<UpdateIcon sx={{ width: '60px', height: '60px' }} />}></Button>
       </div>
-    </div>   
+    </div>
   )
 }
 

@@ -6,9 +6,7 @@ type Wheather = {
     id: number,
     name: string,
     main: Main
-
 }
-
 type Main = {
     temp: number,
     feelsLike: number,
@@ -17,10 +15,19 @@ type Main = {
 }
 type WeatherListState = {
     list: Wheather[],
+    hourList: HourlyWheaterDay[],
     loading: boolean,
     error: string | null,
 }
-
+type HourlyWheater = {
+    lat: number,
+    lon: number,
+    hourly: HourlyWheaterDay[]
+}
+type HourlyWheaterDay = {
+    dt: number,
+    temp: number,
+}
 
 export const fetchWeather = createAsyncThunk<Wheather, string | any, { rejectValue: string }>(
     'weather/fetchWeather',
@@ -31,8 +38,20 @@ export const fetchWeather = createAsyncThunk<Wheather, string | any, { rejectVal
     }
 );
 
+export const fetchHoursWeather = createAsyncThunk<HourlyWheater, number | any, { rejectValue: number }>(
+    'weather/fetchHoursWeather',
+    async function (text, { rejectWithValue }) {
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=48.4680221&lon=35.0417711&units=metric&appid=e630dc44d82c4116f9c2df5f62768bf7`)
+        const data = await response.data;
+        return data;
+    }
+);
+
+
+
 const initialState: WeatherListState = {
     list: [],
+    hourList: [],
     loading: false,
     error: null,
 }
@@ -45,22 +64,7 @@ const weatherSlice = createSlice({
         removeWheatherCard(state, action: PayloadAction<number | any>) {
             state.list = state.list.filter((el) => el.id !== action.payload)
         },
-        //     addTodo(state, action: PayloadAction<string>) {
-        //       state.list.push({
-        //         id: new Date().toISOString(),
-        //         title: action.payload,
-        //         completed: false,
-        //       });
-        //     },
-        //     toggleComplete(state, action: PayloadAction<string>) {
-        //       const toggledTodo = state.list.find(todo => todo.id === action.payload);
-        //       if (toggledTodo) {
-        //         toggledTodo.completed = !toggledTodo.completed;
-        //       }
-        //     },
-        //     removeTodo(state, action: PayloadAction<string>) {
-        //       state.list = state.list.filter(todo => todo.id !== action.payload);
-        //     }
+
     },
     extraReducers: (builder) => {
         builder
@@ -72,15 +76,22 @@ const weatherSlice = createSlice({
                 if (state.list.some((el) => el.id === action.payload.id)) {
                     const res = state.list.map((el) => (el.id == action.payload.id ? { ...action.payload } : el));
                     state.list = res
+                    state.loading = false
                     console.log('update');
                 } else {
                     state.list.push(action.payload)
                     localStorage.setItem(action.payload.name, action.payload.name)
-
+                    state.loading = false
                 }
 
             })
+            .addCase(fetchWeather.pending, (state) => {
+                state.error = null;
+            })
+            .addCase(fetchHoursWeather.fulfilled, (state, action) => {
+                state.hourList.push(action.payload)
 
+            })
     }
 });
 

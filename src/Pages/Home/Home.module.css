@@ -6,3 +6,9 @@
     align-items: center;
     margin-bottom: 40px;
 }
+
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
