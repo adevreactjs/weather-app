@@ -1,0 +1,23 @@
+
+.datailInfo {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #6F66C7;
+    background-size: cover;
+    height: 100vh;
+
+}
+
+.datailInfo li {
+    list-style-type: none;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 63px;
+    line-height: 100px;
+    color: #FFFFFF;
+}
+
+
+
+

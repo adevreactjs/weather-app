@@ -1,0 +1,41 @@
+.card {
+    width: 300px;
+    padding: 40px;
+    background: #6F66C7;
+    border-radius: 48px;
+    margin-bottom: 20px;
+}
+.cardInfo h2{
+    font-style: normal;
+font-weight: 600;
+font-size: 24px;
+line-height: 10px;
+color: #FFFFFF;
+}
+.cardInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.cardInfo p{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    color: #FFFFFF;
+}
+.temp {
+    font-style: normal;
+font-weight: 300;
+font-size: 100px;
+line-height: 140px;
+color: #FFFFFF;
+}
+.temp span {
+    font-style: normal;
+font-weight: 300;
+font-size: 24px;
+line-height: 36px;
+color: #FFFFFF;
+}
