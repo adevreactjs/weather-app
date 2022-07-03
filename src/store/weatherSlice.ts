@@ -85,7 +85,7 @@ const weatherSlice = createSlice({
                 }
 
             })
-            .addCase(fetchWeather.pending, (state) => {
+            .addCase(fetchHoursWeather.pending, (state) => {
                 state.error = null;
             })
             .addCase(fetchHoursWeather.fulfilled, (state, action) => {
