@@ -7,7 +7,8 @@ type Wheather = {
     lon: number,
     id: number,
     name: string,
-    main: Main
+    main: Main,
+    coord: Coordinate
 }
 type Main = {
     temp: number,
@@ -20,6 +21,7 @@ type WeatherListState = {
     list: Wheather[],
     hourList: HourlyWheater[],
     loading: boolean,
+    hourListLoading: boolean,
     error: string | null,
 }
 
@@ -50,7 +52,7 @@ export const fetchHoursWeather = createAsyncThunk<HourlyWheater, Coordinate, { r
     'weather/fetchHoursWeather',
     async function (coordinate, { rejectWithValue }) {
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&units=metric&appid=e630dc44d82c4116f9c2df5f62768bf7`)
-        const data = await response.data;
+        const data = await response.data;        
         return data;
     }
 );
@@ -59,6 +61,7 @@ export const fetchHoursWeather = createAsyncThunk<HourlyWheater, Coordinate, { r
 const initialState: WeatherListState = {
     list: [],
     hourList: [],
+    hourListLoading: false,
     loading: false,
     error: null,
 }
@@ -96,13 +99,13 @@ const weatherSlice = createSlice({
 
             })
             .addCase(fetchHoursWeather.pending, (state) => {
+                state.hourListLoading = false;
                 state.error = null;
             })
             .addCase(fetchHoursWeather.fulfilled, (state, action) => {
-                // state.hourList = []
+                state.hourList = []
                 state.hourList.push(action.payload)
-                console.log(state.hourList);
-                
+                state.hourListLoading = false;
 
             })
     }

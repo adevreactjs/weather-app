@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { useParams } from 'react-router-dom';
 import { WeatherData } from '../../Components/types/types'
+import CircularProgress from '@mui/material/CircularProgress';
 import { fetchHoursWeather } from '../../store/weatherSlice'
 import cl from './Detail.module.css';
 import {
@@ -14,6 +15,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+
 interface Coordinate {
   lat: number | any,
   lon: number | any,
@@ -22,12 +24,12 @@ interface Coordinate {
 const DetaileInfo = () => {
   const [detailInfo, setDetailInfo] = useState<WeatherData>({})
   const { loading, error, list } = useAppSelector(state => state.weather);
-  const { hourList } = useAppSelector(state => state.weather);
+  const { hourListLoading, hourList } = useAppSelector(state => state.weather);
   const dispatch = useAppDispatch()
   const { id } = useParams();
   const coordinate: Coordinate = {
-    lon: detailInfo.coord?.lon,
-    lat: detailInfo.coord?.lon,
+    lon: list.filter(el => el.id === Number(id)).map(el => el.coord.lon)[0],
+    lat: list.filter(el => el.id === Number(id)).map(el => el.coord.lat)[0],
   }
 
   ChartJS.register(
@@ -77,7 +79,9 @@ const DetaileInfo = () => {
   useEffect(() => {
     findItem(id, list)
     dispatch(fetchHoursWeather(coordinate))
+
   }, [])
+  console.log(hourList);
 
   // useEffect(() => {
     
@@ -87,7 +91,6 @@ const DetaileInfo = () => {
   //   }
   // }, [])
 
-  console.log(hourList);
 
 
   return (
@@ -101,7 +104,8 @@ const DetaileInfo = () => {
         <li>Pressure: {Math.round(detailInfo.main?.pressure || 0)} hPa</li>
         <li>Humidity: {Math.round(detailInfo.main?.humidity || 0)} %</li>
       </ul>
-      <Bar options={options} data={data} />
+      {hourListLoading ? <CircularProgress/> : <Bar options={options} data={data} />}
+     
     </div>
   )
 }
