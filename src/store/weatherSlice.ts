@@ -3,6 +3,8 @@ import axios from 'axios'
 
 
 type Wheather = {
+    lat: number,
+    lon: number,
     id: number,
     name: string,
     main: Main
@@ -13,12 +15,14 @@ type Main = {
     pressure: number,
     humidity: number
 }
+
 type WeatherListState = {
     list: Wheather[],
-    hourList: HourlyWheaterDay[],
+    hourList: HourlyWheater[],
     loading: boolean,
     error: string | null,
 }
+
 type HourlyWheater = {
     lat: number,
     lon: number,
@@ -27,6 +31,10 @@ type HourlyWheater = {
 type HourlyWheaterDay = {
     dt: number,
     temp: number,
+}
+type Coordinate = {
+    lat: number,
+    lon: number,
 }
 
 export const fetchWeather = createAsyncThunk<Wheather, string | any, { rejectValue: string }>(
@@ -38,15 +46,14 @@ export const fetchWeather = createAsyncThunk<Wheather, string | any, { rejectVal
     }
 );
 
-export const fetchHoursWeather = createAsyncThunk<HourlyWheater, number | any, { rejectValue: number }>(
+export const fetchHoursWeather = createAsyncThunk<HourlyWheater, Coordinate, { rejectValue: string }>(
     'weather/fetchHoursWeather',
-    async function (text, { rejectWithValue }) {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=48.4680221&lon=35.0417711&units=metric&appid=e630dc44d82c4116f9c2df5f62768bf7`)
+    async function (coordinate, { rejectWithValue }) {
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${coordinate.lat}&lon=${coordinate.lon}&units=metric&appid=e630dc44d82c4116f9c2df5f62768bf7`)
         const data = await response.data;
         return data;
     }
 );
-
 
 
 const initialState: WeatherListState = {
@@ -64,6 +71,9 @@ const weatherSlice = createSlice({
         removeWheatherCard(state, action: PayloadAction<number | any>) {
             state.list = state.list.filter((el) => el.id !== action.payload)
         },
+        // resetHoursWeather(state, action: PayloadAction<HourlyWheater[]>) {
+        //     state.hourList = action.payload
+        // }
 
     },
     extraReducers: (builder) => {
@@ -89,12 +99,19 @@ const weatherSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchHoursWeather.fulfilled, (state, action) => {
-                // state.hourList.push(action.payload)
+                // state.hourList = []
+                state.hourList.push(action.payload)
+                console.log(state.hourList);
+                
 
             })
     }
 });
 
-export const { removeWheatherCard } = weatherSlice.actions;
+export const { removeWheatherCard} = weatherSlice.actions;
 
 export default weatherSlice.reducer;
+
+function isError(action: AnyAction) {
+    return action.type.endsWith('rejected');
+}

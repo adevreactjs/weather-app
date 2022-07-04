@@ -9,8 +9,12 @@ export interface Main {
 
 export interface WeatherData {
     id?: number,
-    lat?: number,
-    lon?: number,
+    coord?: Coord,
     name?: string,
     main?: Main
+}
+
+export interface Coord {
+    lat?: number,
+    lon?: number,
 }

@@ -1,10 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { WeatherData } from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
@@ -21,9 +16,10 @@ interface CartProps {
 const Cart: FC<CartProps> = ({ weather }) => {
   const route = useNavigate();
   const dispatch = useAppDispatch();
+
   const today = new Date();
   const year = today.getFullYear();
-  let month = today.getMonth() + 1; // Months start at 0!
+  let month = today.getMonth() + 1;
   let day = today.getDate();
 
   function updateData(e: React.MouseEvent<HTMLButtonElement>) {
@@ -34,15 +30,10 @@ const Cart: FC<CartProps> = ({ weather }) => {
     e.stopPropagation()
     dispatch(removeWheatherCard(weather.id))
     localStorage.removeItem(weather.name || "")
-    console.log('delete');
 
   }
 
-  useEffect(() => {
 
-
-
-  }, [])
 
 
   return (
