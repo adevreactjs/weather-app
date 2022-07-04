@@ -21,6 +21,16 @@ interface Coordinate {
   lon: number | any,
 }
 
+interface HourlyWheater {
+  lat: number,
+  lon: number,
+  hourly: HourlyWheaterDay[]
+}
+interface HourlyWheaterDay {
+  dt: number,
+  temp: number,
+}
+
 const DetaileInfo = () => {
   const [detailInfo, setDetailInfo] = useState<WeatherData>({})
   const { loading, error, list } = useAppSelector(state => state.weather);
@@ -54,21 +64,39 @@ const DetaileInfo = () => {
     },
   };
 
-  const times = hourList[0].hourly.map(el => new Date(el.dt * 1000).toLocaleTimeString()).slice(0, 24)
-  const temp = hourList[0].hourly.map(el => el.temp)
+
+
+
+  const getData = (hourList: HourlyWheater[]) => {
+
+    const times = hourList[0].hourly.map(el => new Date(el.dt * 1000).toLocaleTimeString()).slice(0, 24)
+    const temp = hourList[0].hourly.map(el => el.temp)
+    return {
+      labels: times,
+      datasets: [
+        {
+          label: 'Temperature:',
+          data: temp,
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        },
+      ],
+    };
+  }
+
+
   // const times = ['1']
   // const temp = ['1']
 
-  const data = {
-    labels: times,
-    datasets: [
-      {
-        label: 'Temperature:',
-        data: temp,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-    ],
-  };
+  // const data = {
+  //   labels: times,
+  //   datasets: [
+  //     {
+  //       label: 'Temperature:',
+  //       data: temp,
+  //       backgroundColor: 'rgba(255, 99, 132, 0.5)',
+  //     },
+  //   ],
+  // };
 
 
   function findItem(id: string | any, list: WeatherData[]) {
@@ -84,7 +112,7 @@ const DetaileInfo = () => {
   console.log(hourList);
 
   // useEffect(() => {
-    
+
   //   return () => {
   //     dispatch(resetHoursWeather([]))
   //     console.log('jjjj')
@@ -104,8 +132,10 @@ const DetaileInfo = () => {
         <li>Pressure: {Math.round(detailInfo.main?.pressure || 0)} hPa</li>
         <li>Humidity: {Math.round(detailInfo.main?.humidity || 0)} %</li>
       </ul>
-      {hourListLoading ? <CircularProgress/> : <Bar options={options} data={data} />}
-     
+      {
+        hourList.length && <Bar options={options} data={getData(hourList)} />
+      }
+
     </div>
   )
 }
