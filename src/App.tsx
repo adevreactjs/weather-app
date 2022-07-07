@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from './Pages/Home/Home'
+import Home from './Pages/Home/Home';
 
 
 function App() {
@@ -8,7 +8,6 @@ function App() {
     <div className="App">
       <Home />
     </div>
-
   );
 }
 

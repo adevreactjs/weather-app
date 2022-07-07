@@ -6,7 +6,9 @@
     align-items: center;
     margin-bottom: 40px;
 }
-
+.addCity h2 {
+    color: red;
+}
 .loader {
     display: flex;
     align-items: center;

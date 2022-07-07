@@ -9,12 +9,12 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import DetaileInfo from './Pages/DetaileInfo/DetaileInfo';
-
+import DetaileInfo from './Pages/DetaileInfo/DetailediInfo';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
