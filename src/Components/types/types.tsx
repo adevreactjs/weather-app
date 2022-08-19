@@ -7,11 +7,15 @@ export interface Main {
     temp_max?: number
 }
 export interface WeatherData {
-    id?: number,
-    coord?: Coord,
-    name?: string,
-    main?: Main
+  id?: number;
+  coord?: Coord;
+  name?: string;
+  main?: Main;
+  weather?: WeatherIcon[] | any;
 }
+export interface WeatherIcon {
+  icon?: string;
+};
 export interface Coord {
     lat?: number,
     lon?: number,

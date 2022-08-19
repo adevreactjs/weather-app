@@ -5,9 +5,14 @@ type Wheather = {
   lat: number;
   lon: number;
   id: number;
+  weather: WeatherIcon[];
   name: string;
   main: Main;
   coord: Coordinate;
+};
+
+type WeatherIcon = {
+  icon: string;
 };
 
 type Main = {
@@ -81,19 +86,19 @@ const weatherSlice = createSlice({
   initialState,
   reducers: {
     removeWheatherCard(state, action: PayloadAction<number | any>) {
-      state.list = state.list.filter((el) => el.id !== action.payload);
+      state.list = state.list.filter(el => el.id !== action.payload);
     },
   },
 
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(fetchWeather.pending, (state) => {
+      .addCase(fetchWeather.pending, state => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchWeather.fulfilled, (state, action) => {
-        if (state.list.some((el) => el.id === action.payload.id)) {
-          const res = state.list.map((el) =>
+        if (state.list.some(el => el.id === action.payload.id)) {
+          const res = state.list.map(el =>
             el.id === action.payload.id ? { ...action.payload } : el,
           );
           state.list = res;
@@ -104,7 +109,7 @@ const weatherSlice = createSlice({
           state.loading = false;
         }
       })
-      .addCase(fetchHoursWeather.pending, (state) => {
+      .addCase(fetchHoursWeather.pending, state => {
         state.error = null;
       })
       .addCase(fetchHoursWeather.fulfilled, (state, action) => {
