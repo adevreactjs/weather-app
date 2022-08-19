@@ -1,22 +1,17 @@
 .details {
-    background-color: #6f66c7;
-
+  background-color: #6f66c7;
 }
 .detailsWrapper {
   max-width: 1200px;
   margin: 0 auto;
 }
 .detailInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   margin: 0 auto;
   text-align: center;
   background-color: #6f66c7;
   background-size: cover;
-  height: 100vh;
+  height: 100%;
 }
 
 .detailInfo li {
@@ -26,4 +21,27 @@
   font-size: 63px;
   line-height: 100px;
   color: #ffffff;
+}
+@media (max-width: 920px) {
+  .detailsBlock {
+  }
+  
+  .detailInfo {
+    padding: 20px;
+    height: 100%;
+    li {
+      list-style-type: none;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 27px;
+      line-height: 50px;
+      color: #ffffff;
+    }
+  }
+  .detailsWrapperBlock {
+    padding: 5%;
+    align-items: center;
+    justify-content: center;
+  }
+ 
 }

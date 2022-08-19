@@ -106,23 +106,25 @@ const DetaileInfo = () => {
 
   return (
     <>
-      <div className={cl.details}>
-        <div className={cl.detailsWrapper}>
-          {detailInfo && (
-            <ul className={cl.detailInfo}>
-              <li>City: {detailInfo.name}</li>
-              <li>Temperature: {Math.round(detailInfo.main?.temp || 0)} °C</li>
-              <li>Feel like: {Math.round(detailInfo.main?.feels_like || 0)} °C</li>
-              <li>Temperature min: {Math.round(detailInfo.main?.temp_min || 0)} °C</li>
-              <li>Temperature max: {Math.round(detailInfo.main?.temp_max || 0)} °C</li>
-              <li>Pressure: {Math.round(detailInfo.main?.pressure || 0)} hPa</li>
-              <li>Humidity: {Math.round(detailInfo.main?.humidity || 0)} %</li>
-            </ul>
-          )}
+      <div className={cl.detailsBlock}>
+        <div className={cl.details}>
+          <div className={cl.detailsWrapper}>
+            {detailInfo && (
+              <ul className={cl.detailInfo}>
+                <li>City: {detailInfo.name}</li>
+                <li>Temperature: {Math.round(detailInfo.main?.temp || 0)} °C</li>
+                <li>Feel like: {Math.round(detailInfo.main?.feels_like || 0)} °C</li>
+                <li>Temperature min: {Math.round(detailInfo.main?.temp_min || 0)} °C</li>
+                <li>Temperature max: {Math.round(detailInfo.main?.temp_max || 0)} °C</li>
+                <li>Pressure: {Math.round(detailInfo.main?.pressure || 0)} hPa</li>
+                <li>Humidity: {Math.round(detailInfo.main?.humidity || 0)} %</li>
+              </ul>
+            )}
+          </div>
         </div>
-      </div>
-      <div className={cl.detailsWrapper}>
-        {hourList.length && <Bar options={options} data={getData(hourList)} />}
+          <div className={cl.detailsWrapperBlock}>
+            {hourList.length && <Bar options={options} data={getData(hourList)} />}
+          </div>
       </div>
     </>
   );
